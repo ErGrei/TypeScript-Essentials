@@ -3,34 +3,34 @@
 
 /*  EXERCISE 1
     TODO: Declare a new function type for the sortDescending and sortAscending functions. */
-    
+type SortFunction = (a: number, b: number) => number;
 
 /*  TODO: Convert the sortDescending and sortAscending functions to arrow 
     functions. */
 
 /*  sortDescending is a comparison function that tells the sort method how to sort 
     numbers in descending order */
-function sortDescending(a, b) {
-if (a > b) {
+let sortDescending: SortFunction = (a, b) => {
+  if (a > b) {
     return -1;
-} else if (b > a) {
+  } else if (b > a) {
     return 1;
-} else {
+  } else {
     return 0;
-}
-}
+  }
+};
 
 /*  sortDescending is a comparison function that tells the sort method how to sort 
     numbers in ascending order. */
-function sortAscending(a, b) {
-if (a > b) {
+let sortAscending: SortFunction = (a, b) => {
+  if (a > b) {
     return 1;
-} else if (b > a) {
+  } else if (b > a) {
     return -1;
-} else {
+  } else {
     return 0;
-}
-}
+  }
+};
 
 /*  The buildArray function builds an array of unique random numbers containing the number 
     of items based on the number passed to it. The sortOrder parameter determines 
@@ -38,33 +38,57 @@ if (a > b) {
 
 /*  TODO: Update the BuildArray function. */
 
-function buildArray(items, sortOrder) {
-    let randomNumbers = [];
-    let nextNumber;
-    for (let counter = 0; counter < items; counter++) {
-        nextNumber = Math.ceil(Math.random() * (100 - 1));
-        if (randomNumbers.indexOf(nextNumber) === -1) {
-          randomNumbers.push(nextNumber);
-        } else {
-          counter--;
-        }
-    }
-    if (sortOrder === 'ascending') {
-      return randomNumbers.sort(sortAscending);
+/**
+ * Generates an array of random numbers and sorts it based on the given order.
+ *
+ * @param {number} items - The number of random numbers to generate
+ * @param {"ascending" | "descending"} sortOrder - The order in which to sort the array
+ * @return {number[]} The array of random numbers sorted in the specified order
+ */
+function buildArray(
+  items: number,
+  sortOrder: "ascending" | "descending"
+): number[] {
+  let randomNumbers: number[] = [];
+  let nextNumber: number;
+  for (let counter = 0; counter < items; counter++) {
+    nextNumber = Math.ceil(Math.random() * (100 - 1));
+    if (randomNumbers.indexOf(nextNumber) === -1) {
+      randomNumbers.push(nextNumber);
     } else {
-      return randomNumbers.sort(sortDescending);
+      counter--;
     }
+  }
+  if (sortOrder === "ascending") {
+    return randomNumbers.sort(sortAscending);
+  } else {
+    return randomNumbers.sort(sortDescending);
+  }
 }
 
-let myArray1 = buildArray(12, 'ascending');
-let myArray2 = buildArray(8, 'descending');
+let myArray1 = buildArray(12, "ascending");
+let myArray2 = buildArray(8, "descending");
 
 /*  EXERCISE 2
     TODO: Update the LoanCalculator function. */
 
-function loanCalculator (principle, interestRate, months) {
-    let interest = interestRate / 1200;   // Calculates the monthly interest rate
-    let payment;
-    payment = principle * interest / (1 - (Math.pow(1/(1 + interest), months)));
-    return payment.toFixed(2);
+/**
+ * Calculates the monthly payment for a loan.
+ *
+ * @param {number} principle - the initial loan amount
+ * @param {number} interestRate - the annual interest rate
+ * @param {number} months - the number of months for the loan (default is 12)
+ * @return {string} the calculated monthly payment as a string with two decimal places
+ */
+function loanCalculator(
+  principle: number,
+  interestRate: number,
+  months: number = 12
+): string {
+  let interest: number = interestRate / 1200; // Calculates the monthly interest rate
+  let payment: number;
+  payment = (principle * interest) / (1 - Math.pow(1 / (1 + interest), months));
+  return payment.toFixed(2);
 }
+let myLoan = loanCalculator(1000, 5);
+console.log(myLoan);
